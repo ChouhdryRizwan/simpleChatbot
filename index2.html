@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>chatbot</title>
+  </head>
+  <body>
+    <h1>Let's build Chatbot</h1>
+  </body>
+  <script>
+    const API_KEY = "AIzaSyCu4O8kGxwU1BqGhlbiEnB-QQpEPzuEKfM";
+    const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
+
+    async function generateAPIResponse() {
+        let message  = prompt('what you want from me ?')
+      // Send a POST request to the API with the user's message
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: message }],
+              },
+            ],
+          }),
+        });
+        const data = await response.json();
+        console.log(data);
+
+        const apiResponse = data?.candidates[0].content.parts[0].text;
+        console.log(apiResponse);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    generateAPIResponse();
+  </script>
+</html>
